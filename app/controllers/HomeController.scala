@@ -15,16 +15,16 @@ import models.Calculus
 @Singleton
 class HomeController @Inject() extends Controller {
 
-  /**
-   * Create an Action to render an HTML page with a welcome message.
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
+  
   def index = Action {
     Ok("Hello World!")
   }
   
+  /**
+   * This action receives a string representing an equation in base64 encrypted form
+   * It decrypts it, converts it to postfix and then evaluates the result
+   * Returns either result in JSON or 400 bad request and and a reason message in JSON
+   */
   def calculus(query:String) = Action {implicit request =>
     var parsedQuery : String = new String(Base64.getDecoder().decode(query))
     var postfix = Calculus.toPostfix(parsedQuery)
@@ -35,8 +35,8 @@ class HomeController @Inject() extends Controller {
         jsonResult = Json.obj("error" -> true, "message" -> result)
         BadRequest(jsonResult)
     } else {
-       jsonResult = Json.obj("error" -> false, "result" -> result.toInt) 
-       Ok(jsonResult)
+        jsonResult = Json.obj("error" -> false, "result" -> result.toInt) 
+        Ok(jsonResult)
     }
   }
 

@@ -55,22 +55,21 @@ object Calculus {
                   postFix.append('!')
               } else {
                   
-                if (operators.isEmpty) {
-                  operators.push(current)
-                } else {
-                  top = operators.top
-                  if (Calculus.operatorValue(current) > Calculus.operatorValue(top)) {
+                  if (operators.isEmpty) {
                       operators.push(current)
                   } else {
-                      while (operators.isEmpty == false && Calculus.operatorValue(current) <= Calculus.operatorValue(operators.top)) {
-                        oper = operators.pop
-                        postFix.append(oper)
-                        postFix.append(" ")
-                      }
-                      
+                      top = operators.top
+                      if (Calculus.operatorValue(current) > Calculus.operatorValue(top)) {
+                          operators.push(current)
+                      } else {
+                          while (operators.isEmpty == false && Calculus.operatorValue(current) <= Calculus.operatorValue(operators.top)) {
+                              oper = operators.pop
+                              postFix.append(oper)
+                              postFix.append(" ")
+                          }
                       operators.push(current)
+                      }
                   }
-                }
                 
               }
               
