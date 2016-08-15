@@ -8,6 +8,7 @@ object Calculus {
     val MALFORMED_QUERY = "err4"
     val ARITHMETIC_EXCEPTION = "err5"
     val EMPTY_QUERY = "err6"
+    val DIVIDED_ZERO = "err7"
     val ERROR_BASE = 'e'
   
   //Transform the equation string into postfix format
@@ -127,8 +128,14 @@ object Calculus {
               var result : Double = 0
               try {
                   result = Calculus.calculate(identifier, firstOperand, secondOperand)
+                  
+                  //Dividing with 0 with doubles gives infinite but error is more appropriate here
+                  if (result.isInfinite) {
+                      return Calculus.DIVIDED_ZERO
+                  }
+                  
               } catch {
-                  //Arimethic exception, probably divided by zero
+                  //Arimethic exception
                   case e:ArithmeticException => return Calculus.ARITHMETIC_EXCEPTION
               }
               operands.push(result)
@@ -184,8 +191,9 @@ object Calculus {
           case Calculus.UNMATCHED_OPENING => "Unmatched opening bracket '(' encountered."
           case Calculus.UNMATCHED_CLOSING => "Unmatched closing bracket ')' encountered"
           case Calculus.MALFORMED_QUERY => "Malformed query. Please recheck the equation"
-          case Calculus.ARITHMETIC_EXCEPTION => "Arithmetic exception encountered. Did you try dividing by zero?"
+          case Calculus.ARITHMETIC_EXCEPTION => "Arithmetic exception encountered."
           case Calculus.EMPTY_QUERY => "No query received. Usage: /calculus?query=[base64encodedquery]"
+          case Calculus.DIVIDED_ZERO => "Result was infinity. Did you try dividing by zero?"
           case _ => "Unknown error"
       }
   }
