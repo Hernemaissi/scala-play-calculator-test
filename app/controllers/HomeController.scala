@@ -17,7 +17,7 @@ class HomeController @Inject() extends Controller {
 
   
   def index = Action {
-    Ok("Hello World!")
+    Ok("Usage: /calculus?query=[base64encodedstring]")
   }
   
   /**
@@ -29,13 +29,12 @@ class HomeController @Inject() extends Controller {
     var parsedQuery : String = new String(Base64.getDecoder().decode(query))
     var postfix = Calculus.toPostfix(parsedQuery)
     var result = Calculus.evaluate(postfix)
-    var jsonResult : JsObject = Json.obj("error" -> true)
     if (Calculus.isError(result)) {
         result = Calculus.getErrorMsg(result)
-        jsonResult = Json.obj("error" -> true, "message" -> result)
+        var jsonResult = Json.obj("error" -> true, "message" -> result)
         BadRequest(jsonResult)
     } else {
-        jsonResult = Json.obj("error" -> false, "result" -> result.toInt) 
+        var jsonResult = Json.obj("error" -> false, "result" -> result.toInt) 
         Ok(jsonResult)
     }
   }

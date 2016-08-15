@@ -1,49 +1,21 @@
-This is your new Play application
+Scala and Play2 Calculator test app
 =================================
 
-This file will be packaged with your application when using `activator dist`.
+Usage:
+/calculus?query=[base64encodedstring]
 
-There are several demonstration files available in this template.
+For example: /calculus?query=MiArIDU=
 
-Controllers
-===========
+Result:
+On success: JSON in format {error: false, result: number}
+On error: 400 Bad Request and JSON in format (error: true, message: string }
 
-- HomeController.scala:
+Created with Activator UI scaffolding but relevant files are:
+Calculus.scala
+HomeController.scala
+routes
 
-  Shows how to handle simple HTTP requests.
 
-- AsyncController.scala:
-
-  Shows how to do asynchronous programming when handling a request.
-
-- CountController.scala:
-
-  Shows how to inject a component into a controller and use the component when
-  handling requests.
-
-Components
-==========
-
-- Module.scala:
-
-  Shows how to use Guice to bind all the components needed by your application.
-
-- Counter.scala:
-
-  An example of a component that contains state, in this case a simple counter.
-
-- ApplicationTimer.scala:
-
-  An example of a component that starts when the application starts and stops
-  when the application stops.
-
-Filters
-=======
-
-- Filters.scala:
-
-  Creates the list of HTTP filters used by your application.
-
-- ExampleFilter.scala
-
-  A simple filter that adds a header to every response.
+Description:
+First decrypts the string, then performs Shunting-yard algorithm to convert the equation to postfix
+Finally evaluates the postfix format string and returns the result in JSON format.
