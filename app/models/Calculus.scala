@@ -107,15 +107,15 @@ object Calculus {
           return postfix
       }
       
-      var operands = Stack[Int]()
+      var operands = Stack[Double]()
       for (current <- postfix.split(" ")) {
           var identifier = current(0)
           if (identifier.isDigit) {
               //If it's a operand, push it to the stack
-              operands.push(current.toInt)
+              operands.push(current.toDouble)
           } else if (identifier == '!') {
               //If it's a negative operand, turn it negative and push it to the stack
-              operands.push(current.substring(1).toInt * -1)
+              operands.push(current.substring(1).toDouble * -1)
           } else if (Calculus.isOperator(identifier)) {
               //If it's operator, pop two operands and perform the operation
               if (operands.size < 2) {
@@ -124,7 +124,7 @@ object Calculus {
               }
               var secondOperand = operands.pop
               var firstOperand = operands.pop
-              var result : Int = 0
+              var result : Double = 0
               try {
                   result = Calculus.calculate(identifier, firstOperand, secondOperand)
               } catch {
@@ -139,6 +139,7 @@ object Calculus {
           //malformed query
           return Calculus.MALFORMED_QUERY
       }
+      
       return operands.pop.toString
   }
   
@@ -164,7 +165,7 @@ object Calculus {
       query(i) == '-' && (query(i+1).isDigit && (i == 0 || (Calculus.isOperator(query(i -1)) && query(i-1) != ')' ) ))
   }
   //Given two operands and a char that is a operator, performs the operation
-  def calculate(operator : Char, firstOperand : Int, secondOperand : Int) : Int = {
+  def calculate(operator : Char, firstOperand : Double, secondOperand : Double) : Double = {
       try {
           operator match {
               case '+' => firstOperand + secondOperand

@@ -34,7 +34,7 @@ class HomeController @Inject() extends Controller {
         var jsonResult = Json.obj("error" -> true, "message" -> result)
         BadRequest(jsonResult)
     } else {
-        var jsonResult = Json.obj("error" -> false, "result" -> result.toInt) 
+        var jsonResult = Json.obj("error" -> false, "result" -> result.toDouble) 
         Ok(jsonResult)
     }
   }
